@@ -1,23 +1,20 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Login from './components/Login';
+import Messages from './components/Messages';
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Messages</h1>
+      {
+        (user == null && token !== "") ?
+          <Login setUser={ setUser } setToken={ setToken } /> :
+          <Messages token={ token } userId={ user._id } />
+      }
     </div>
   );
 }

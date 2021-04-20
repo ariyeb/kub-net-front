@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { sendUsersRequest } from '../server/login';
 
-const Login = ({ setUser, setToken }) => {
+const Login = ({ setUserData }) => {
     const [isLogin, setIsLogin] = useState(false);
 
     const onSubmit = (event) => {
@@ -10,9 +10,8 @@ const Login = ({ setUser, setToken }) => {
         const password = event.target.children[1].value;
         sendUsersRequest(email, password, isLogin)
             .then(res => {
-                console.log(res);
-                setUser(res.user);
-                setToken(res.token);
+                console.log(res.token);
+                setUserData(res);
             });
     };
 

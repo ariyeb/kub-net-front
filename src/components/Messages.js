@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { getMessages, sendMessage } from '../server/messages';
 
-const Messages = ({ userId, token }) => {
+const Messages = ({ userData }) => {
     const [messages, setMessages] = useState([]);
     useEffect(() => {
-        getMessages(userId, token)
-            .then(newMessages => {
-                setMessages(newMessages);
-            });
-    }, [userId, token]);
+        if (userData) {
+            getMessages(userData.user._id, userData.token)
+                .then(newMessages => {
+                    setMessages(newMessages);
+                });
+        }
+    }, [userData]);
 
     const onSubmitForm = (event) => {
         event.preventDefault();
         const title = event.target.children[0].value;
         const body = event.target.children[1].value;
         console.log(title, body);
-        sendMessage(userId, token, title, body)
+        sendMessage(userData.user._id, userData.token, title, body)
             .then(() => {
-                return getMessages(userId, token);
+                return getMessages(userData.user._id, userData.token);
             })
             .then(newMessages => {
                 setMessages(newMessages);
